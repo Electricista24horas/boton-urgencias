@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Botón Urgencias 24hs</title>
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#25D366" />
+  <link rel="manifest" href="manifest.json" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    #boton-urgencias-container {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      text-align: center;
+    }
+    #boton-urgencias {
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 0 8px red;
+      transition: background-color 0.3s ease;
+    }
+    #boton-urgencias:hover {
+      background-color: darkred;
+    }
+    #opciones-urgencias {
+      display: none;
+      margin-top: 10px;
+      width: 240px;
+      text-align: center;
+    }
+    #opciones-urgencias a {
+      display: block;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #llamar-btn {
+      background: #222;
+      color: white;
+    }
+    #llamar-btn:hover {
+      background: #444;
+    }
+    #whatsapp-btn {
+      background: #25D366;
+      color: white;
+    }
+    #whatsapp-btn:hover {
+      background: #1ebe57;
+    }
+    footer {
+      position: fixed;
+      bottom: 70px;
+      font-size: 0.8rem;
+      color: #bbb;
+      user-select: none;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Botón de Urgencias 24hs</h1>
+
+  <div id="boton-urgencias-container">
+    <button id="boton-urgencias" aria-label="Botón de Urgencias 24hs">
+      🚨 URGENCIAS 24hs
+    </button>
+    <div id="opciones-urgencias" role="region" aria-live="polite">
+      <a href="tel:+541159156129" id="llamar-btn" role="button" aria-label="Llamar a Luciano">
+        📞 Llamar a Luciano
+      </a>
+      <a href="https://wa.me/5491159156129?text=Hola%20Luciano%2C%20tengo%20una%20urgencia%20el%C3%A9ctrica" target="_blank" id="whatsapp-btn" role="button" aria-label="Enviar WhatsApp a Luciano">
+        💬 WhatsApp a Luciano
+      </a>
+    </div>
+  </div>
+
+  <footer>Desarrollado por Luciano Didiego</footer>
+
+  <!-- Lógica del botón -->
+  <script>
+    const botonUrgencias = document.getElementById('boton-urgencias');
+    const opcionesUrgencias = document.getElementById('opciones-urgencias');
+    const llamarBtn = document.getElementById('llamar-btn');
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+
+    botonUrgencias.addEventListener('click', () => {
+      const visible = opcionesUrgencias.style.display === 'block';
+      opcionesUrgencias.style.display = visible ? 'none' : 'block';
+    });
+
+    function cerrarOpciones() {
+      opcionesUrgencias.style.display = 'none';
+    }
+
+    llamarBtn.addEventListener('click', cerrarOpciones);
+    whatsappBtn.addEventListener('click', cerrarOpciones);
+  </script>
+
+  <!-- Registro del Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then((registration) => {
+          console.log('✔️ Service Worker registrado con éxito:', registration);
+        }).catch((error) => {
+          console.log('❌ Error al registrar el Service Worker:', error);
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
